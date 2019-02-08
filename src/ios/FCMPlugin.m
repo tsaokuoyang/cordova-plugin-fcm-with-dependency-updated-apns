@@ -49,6 +49,19 @@ static FCMPlugin *fcmPluginInstance;
     }];
 }
 
+// GET APNs TOKEN //
+- (void) getAPNSToken:(CDVInvokedUrlCommand *)command
+{
+    NSLog(@"get Token");
+    [self.commandDelegate runInBackground:^{
+        NSString* token = [AppDelegate getAPNSToken];
+        CDVPluginResult* pluginResult = nil;
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:token];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+
 // UN/SUBSCRIBE TOPIC //
 - (void) subscribeToTopic:(CDVInvokedUrlCommand *)command 
 {

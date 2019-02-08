@@ -35,6 +35,7 @@
 @implementation AppDelegate (MCPlugin)
 
 static NSData *lastPush;
+static NSString *apnToken;
 NSString *const kGCMMessageIDKey = @"gcm.message_id";
 
 //Method swizzling
@@ -298,9 +299,23 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 }
 // [END disconnect_from_fcm]
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString *token = [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"withString:@""]
+                        stringByReplacingOccurrencesOfString:@">" withString:@""]
+                       stringByReplacingOccurrencesOfString: @" " withString: @""];
+    apnToken = token;
+}
+
 +(NSData*)getLastPush
 {
     NSData* returnValue = lastPush;
+    lastPush = nil;
+    return returnValue;
+}
+
++(NSString*)getAPNSToken
+{
+    NSString* returnValue = apnToken;
     lastPush = nil;
     return returnValue;
 }
