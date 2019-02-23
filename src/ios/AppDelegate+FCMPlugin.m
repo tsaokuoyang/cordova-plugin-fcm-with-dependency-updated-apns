@@ -36,6 +36,7 @@
 
 static NSData *lastPush;
 static NSString *apnToken;
+BOOL firstLocalPush;
 NSString *const kGCMMessageIDKey = @"gcm.message_id";
 
 //Method swizzling
@@ -52,7 +53,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 
     NSLog(@"DidFinishLaunchingWithOptions");
  
-    
+    firstLocalPush = false;
     // Register for remote notifications. This shows a permission dialog on first run, to
     // show the dialog at a more appropriate time move this registration accordingly.
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
@@ -129,10 +130,20 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfoMutable
                                                        options:0
                                                          error:&error];
-    [FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
+//    if (firstLocalPush == false){
+//        [FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
+//        firstLocalPush = true;
+//    }
     
-    // Change this to your preferred presentation option
-    completionHandler(UNNotificationPresentationOptionNone);
+    if ([userInfo objectForKey:@"id"]){
+        // Change this to your preferred presentation option
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionAlert);
+        
+    } else{
+        [FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
+    }
 }
 
 // Handle notification messages after display notification is tapped by the user.
@@ -159,9 +170,12 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
                                                              error:&error];
         NSLog(@"APP WAS CLOSED DURING PUSH RECEPTION Saved data: %@", jsonData);
         lastPush = jsonData;
+    if (lastPush != nil) {
+        [FCMPlugin.fcmPlugin notifyOfMessage:lastPush];
+    }
 
     
-    completionHandler();
+//    completionHandler();
 }
 #endif
 

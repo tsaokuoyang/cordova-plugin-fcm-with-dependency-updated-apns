@@ -136,10 +136,10 @@ static FCMPlugin *fcmPluginInstance;
 -(void) appEnterForeground
 {
     NSLog(@"Set state foreground");
-    NSData* lastPush = [AppDelegate getLastPush];
-    if (lastPush != nil) {
-        [FCMPlugin.fcmPlugin notifyOfMessage:lastPush];
-    }
+//    NSData* lastPush = [AppDelegate getLastPush];
+//    if (lastPush != nil) {
+//        [FCMPlugin.fcmPlugin notifyOfMessage:lastPush];
+//    }
     appInForeground = YES;
 }
 
