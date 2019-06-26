@@ -10,7 +10,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/andrehtissot/cordova-plugin-fcm-with-dependecy-updated/badge.svg?targetFile=package.json)](https://snyk.io/test/github/andrehtissot/cordova-plugin-fcm-with-dependecy-updated?targetFile=package.json) -->
 
 ## Authorship
-This is a fork from https://github.com/andrehtissot/cordova-plugin-fcm-with-dependecy-updated with behind-the-scenes improvements.
+This is a fork from https://github.com/Shashank2406/cordova-plugin-fcm-with-dependency-updated-apns with behind-the-scenes improvements.
 
 This fork has its google and firebase dependencies versions defined, which is necessary to avoid cordova build errors.
 
