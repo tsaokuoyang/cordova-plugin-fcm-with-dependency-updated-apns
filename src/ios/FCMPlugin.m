@@ -1,5 +1,6 @@
 #include <sys/types.h>
 #include <sys/sysctl.h>
+#import <WebKit/WebKit.h>
 
 #import "AppDelegate+FCMPlugin.h"
 
